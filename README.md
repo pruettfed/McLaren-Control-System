@@ -71,8 +71,7 @@ Making a Lego McLaren F1 Car drive using an Arduino Uno and DC motor.
 ### Planning
 The two back wheels of the car are connected and both driven by one axle in the center of the car, so by connecting a motor to the axle, the cars back wheels can turn. The diagram below shows the approximate measurements of the body of the car and the planned areas for each component to be placed. 
 
-<img src="/documentation/images/measurements.jpg" width="300"/>
-<img src="/documentation/images/layout.jpg" width="300"/>
+<img src="/documentation/images/measurements.jpg" width="300"/><img src="/documentation/images/layout.jpg" width="300"/>
 
 
 ### Modifying the body
