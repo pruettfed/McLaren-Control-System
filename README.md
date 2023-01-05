@@ -20,7 +20,6 @@ Making a Lego McLaren F1 Car drive using an Arduino Uno and DC motor.
     - [Designing parts](#designing-parts)
       - [The motor connector](#the-motor-connector)
       - [Motor holder](#motor-holder)
-      - [Arduino holder](#arduino-holder)
     - [Finished Product](#finished-product)
   - [Circuitry](#circuitry)
   - [Control System](#control-system)
@@ -61,7 +60,6 @@ Making a Lego McLaren F1 Car drive using an Arduino Uno and DC motor.
 - Lego Mclaren F1 Car
 - DC Motor to Lego Axle Connector (Custom Designed)
 - Motor holder (Custom Designed)
-- Arduino holder (Custom Designed)
 
 ### Control
 - iPhone with ArduinoBlue app installed
@@ -75,7 +73,7 @@ The two back wheels of the car are connected and both driven by one axle in the 
 
 
 ### Modifying the body
-By removing the engine from the car, it frees up space for the DC motor to be connected to the main axle, which drives the two back wheels of the car.
+By removing the engine from the car, it frees up space for the DC motor to be connected to the main axle, which drives the two back wheels of the car. Removing the seat allows for space for the HM-10 module to sit. Extra platforming was also added to the underbody to allow for the Arduino and breaboard to sit.
 
 <img src="/documentation/images/no-engine-top.jpg" width="400"/>
 
@@ -85,8 +83,6 @@ The gear-axle connector is designed to interface the DC motor with the main axle
 ![Gear connector](/documentation/images/Technical%20Diagram.png)
 
 #### Motor holder
-
-#### Arduino holder
 
 ### Finished Product
 
@@ -111,12 +107,12 @@ This section defines the necessary libraries and sets up the pin layout.
 
 // Motor pins
 const int enablePin = 11; // PWM
-const int in1 = 10; // PWM
-const int in2 = 9; // PWM
+const int in1 = 10;
+const int in2 = 9;
 
 // HM-10 pins
-const int tx = 1;
-const int rx = 0;
+const int txPin = 2;
+const int rxPin = 4;
 
 SoftwareSerial bluetooth(tx, rx); // Assign HM-10 Pins
 ArduinoBlue phone(bluetooth); // Reference bluetooth object
@@ -127,22 +123,21 @@ These 3 functions define the motor direction and will be used based on the throt
 ```cpp
 // Configures the motor controller to stop the motors.
 void brake() {
-	digitalWrite(enablePin, LOW);
 	digitalWrite(in1, LOW);
 	digitalWrite(in2, LOW);
-	digitalWrite(enablePin, HIGH);
+	digitalWrite(enablePin, LOW);
 }
 
 // Configures the motor controller to move forward.
 void motorSetForward() {
-	digitalWrite(in1, LOW);
-	digitalWrite(in2, HIGH);
+	digitalWrite(in1, HIGH);
+	digitalWrite(in2, LOW);
 }
 
 // Configures the motor controller to move backwards.
 void motorSetBackward() {
-	digitalWrite(in1, HIGH);
-	digitalWrite(in2, LOW);
+	digitalWrite(in1, LOW);
+	digitalWrite(in2, HIGH);
 }
 ```
 
@@ -150,16 +145,21 @@ void motorSetBackward() {
 This function gets the throttle input from the phone and sets the motor direction using the previous functions. It also maps the throttle speed to work with the analog pin inputs.
 ```cpp
 void controlDrive() {
+  // Throttle values
+	// 50 = max forward throttle
+	// 0 = no throttle
+	// -49 = max reverse throttle
+
   throttle = phone.getThrottle() - 49;
 
-  if (throttle == 0) {
-    brake();
-    return;
-  }
-  else if (throttle > 0) { motorSetForward(); } // Forward
-  else { motorSetBackward(); } // Backward
+  if (throttle == 0) { brake(); }
+  else if (throttle > 0) { motorSetForward(); }
+  else { motorSetBackward(); }
+}
 
-  throttleSpeed = map(abs(throttle), 0, 50, 0, 255); // Map speed from phone -49 to 50 (negative doesn't apply since direction is set before)
+void mapSpeed(int throttleValue) {
+  throttleSpeed = map(abs(throttleValue), 0, 50, 0, 255);
+  // Map speed from phone -49 to 50 (negative doesn't apply since direction is set before)
 }
 ```
 
@@ -167,6 +167,8 @@ Finally, this function runs continously on the Arduino to write the speed to the
 ```cpp
 void loop() {
   controlDrive();
+  mapSpeed(throttle);
+
   analogWrite(enablePin, throttleSpeed);
 }
 ```
@@ -191,6 +193,6 @@ The hardest part of this project was figuring out how to connect the Arduino to 
 ## Acknowledgements
 [This article](https://lastminuteengineers.com/l293d-dc-motor-arduino-tutorial/) was especially helpful in learning how the L293D motor driver worked.
 
-The **ArduinoBlue** library was esential to making this project function. 
+The **ArduinoBlue** library was essential to making this project function. 
 - https://sites.google.com/stonybrook.edu/arduinoble
 - https://github.com/purwar2016/ArduinoBlue-library/releases
