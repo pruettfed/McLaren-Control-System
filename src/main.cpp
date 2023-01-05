@@ -5,13 +5,13 @@
 /// <=> PIN SETUP <=> ///
 
 // Motor pins
-const int enablePin = 11; // PWM
-const int in1 = 10;
-const int in2 = 9;
+const int enablePin = 6; // PWM
+const int in1 = 7;
+const int in2 = 13;
 
 // HM-10 pins
-const int txPin = 2;
-const int rxPin = 4;
+const int txPin = A4;
+const int rxPin = A5;
 
 /// <=> CONTROL VARIABLES <=> ///
 int throttle, throttleSpeed;
