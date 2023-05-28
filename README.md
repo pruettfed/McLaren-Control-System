@@ -33,7 +33,6 @@
     - [Motor Torque/Power](#motor-torquepower)
     - [Motor Placement](#motor-placement)
     - [Adding steering](#adding-steering)
-  - [🎥 Demo Video](#-demo-video)
   - [Acknowledgements](#acknowledgements)
 
 ## ✅ Goals
@@ -89,13 +88,13 @@ By removing the engine from the car, it frees up space for the DC motor to be co
 #### The motor connector
 The gear-axle connector is designed to interface the DC motor with the main axle of the car. The technical diagram below shows the part in detail. [View the STL file.](documentation/models/Lego%20Motor%20Connector%20v10.stl)
 
-![Gear connector](/documentation/images/Technical%20Diagram.png)
+![Gear connector](/documentation/images/Connector%20Drawing.png)
 ![Close up](documentation/images/close_up.jpg)
 
 #### Motor holder
 The motor holder is designed to keep the motor in one place so that just the gear-axle system rotates. It interfaces perfectly with basic lego technic connector pieces and allows for wiring and the gear to pass through. [View the STL file.](documentation/models/Motor%20Holder%20v5.stl)
 
-/// HOLDER techdraw
+![Motor Holder](/documentation/images/Motor%20Holder%20Drawing.png)
 
 ### Finished Product
 ![Top Down](documentation/images/top_down.jpg)
@@ -238,11 +237,6 @@ It's also possible the the motor isn't in the right spot to generate the maximum
 
 ### Adding steering
 Using a servo motor and interfacing with the steering wheel through another custom part is possible. The wiring might be a little difficult but it is something that could be done in the future.
-
----
-
-## 🎥 Demo Video
-// Add video
 
 ---
 
